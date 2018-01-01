@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>   
+   
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>   
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+    </encoder>   
+  </appender>
+  
+  <appender name="STDOUTBLOCKINFO" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+    	<level>INFO</level>
+    </filter>
+    <encoder>   
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - ***** %msg *****%n</pattern>   
+    </encoder>   
+  </appender>
+  
+  <appender name="STDOUTBLOCKDEBUG" class="ch.qos.logback.core.ConsoleAppender">
+  	<filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>DEBUG</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  	<encoder>   
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - ** %msg%n</pattern>   
+    </encoder>   
+  </appender>
+  
+  <logger name="com.codingcat.happy" level="DEBUG" additivity="false">
+  	<appender-ref ref="STDOUT"/>
+  </logger>
+  
+  <logger name="com.codingcat.happy.aop.aspect" level="DEBUG" additivity="false">
+  	<appender-ref ref="STDOUTBLOCKINFO"/>
+  	<appender-ref ref="STDOUTBLOCKDEBUG"/>
+  </logger>
+  
+  <logger name="com.codingcat.happy.java.dynamic.proxy.JavaDynamicProxySample1" level="DEBUG" additivity="false">
+  	<appender-ref ref="STDOUTBLOCKINFO"/>
+  	<appender-ref ref="STDOUTBLOCKDEBUG"/>
+  </logger>
+  
+  <logger name="com.codingcat.happy.cglib.proxy.CGLibProxySample1" level="DEBUG" additivity="false">
+  	<appender-ref ref="STDOUTBLOCKINFO"/>
+  	<appender-ref ref="STDOUTBLOCKDEBUG"/>
+  </logger>
+  
+  <!-- 將DispatcherServlet設為DEBUG後,log中仍太多不必要資訊,可能朝繼承@Override的方向試試 -->
+  <!-- <logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" additivity="false">
+  	<appender-ref ref="STDOUT"/>
+  </logger> -->
+  <!-- 目前spring的log也會輸出,所以調整為INFO,避免log中太多不必要的資訊,再針對要看的log加入logger的設定即可 -->
+  <root level="INFO">             
+    <appender-ref ref="STDOUT" />
+  </root> 
+  <!-- <root level="DEBUG">             
+    <appender-ref ref="STDOUT" />
+  </root>   -->  
+     
+ </configuration>
